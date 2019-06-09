@@ -18,7 +18,7 @@ public class TutorialMod {
 	@Mod.Instance
 	public static TutorialMod instance;
 
-	private static Logger logger;
+	public static Logger logger;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
