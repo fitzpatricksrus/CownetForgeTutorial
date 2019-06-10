@@ -3,6 +3,7 @@ package us.cownet.tutorialmod.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -14,7 +15,8 @@ import us.cownet.tutorialmod.TutorialMod;
 
 @Mod.EventBusSubscriber(modid = TutorialMod.MODID)
 public class BlockBasic extends Block {
-	static Block tutorialBlock;
+	private static final String blockName = "blockbasic";
+	private static Block tutorialBlock;
 
 	public BlockBasic(String name, Material materialIn) {
 		super(materialIn);
@@ -23,7 +25,7 @@ public class BlockBasic extends Block {
 	}
 
 	public static void init() {
-		tutorialBlock = new BlockBasic("blockbasic", Material.ROCK);
+		tutorialBlock = new BlockBasic(blockName, Material.ROCK).setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		TutorialMod.logger.info("BlockBasic.init");
 	}
 

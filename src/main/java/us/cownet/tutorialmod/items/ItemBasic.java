@@ -13,9 +13,10 @@ import us.cownet.tutorialmod.TutorialMod;
 @Mod.EventBusSubscriber(modid = TutorialMod.MODID)
 public class ItemBasic extends Item {
 	private static Item tutorialItem;
+	private static final String itemName = "itembasic";
 
 	public static void init() {
-		tutorialItem = new ItemBasic("itembasic").setCreativeTab(CreativeTabs.MISC).setMaxStackSize(32);
+		tutorialItem = new ItemBasic(itemName).setCreativeTab(CreativeTabs.MISC).setMaxStackSize(32);
 		TutorialMod.logger.info("ItemBasic.init");
 	}
 
