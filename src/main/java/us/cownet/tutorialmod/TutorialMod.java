@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
+import us.cownet.tutorialmod.blocks.BlockBasic;
 import us.cownet.tutorialmod.items.ItemBasic;
 
 @Mod(modid = TutorialMod.MODID, name = TutorialMod.NAME, version = TutorialMod.VERSION)
@@ -26,6 +27,7 @@ public class TutorialMod {
 		logger = event.getModLog();
 		logger.info(MODID + ":preInit");
 		ItemBasic.init();
+		BlockBasic.init();
 	}
 
 	@EventHandler
