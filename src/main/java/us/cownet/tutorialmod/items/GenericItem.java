@@ -10,8 +10,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import us.cownet.tutorialmod.TutorialMod;
 
+import java.util.HashMap;
+
 @Mod.EventBusSubscriber(modid = TutorialMod.MODID)
 public class GenericItem extends Item {
+	private static HashMap<String, GenericItem> items = new HashMap<>();
 	private String itemName;
 
 	public GenericItem(String name) {
@@ -30,19 +33,23 @@ public class GenericItem extends Item {
 		setRegistryName(itemName);
 		setCreativeTab(tab);
 		setMaxStackSize(maxStackSize);
+		items.put(itemName, this);
 		TutorialMod.logger.info("<<" + itemName+".init");
 	}
 
 	@SubscribeEvent
-	public void registerItems(RegistryEvent.Register<Item> event) {
-		event.getRegistry().registerAll(this);
-		TutorialMod.logger.info(itemName+".registerItems");
+	public static void registerItems(RegistryEvent.Register<Item> event) {
+		for (GenericItem i : items.values()) {
+			event.getRegistry().registerAll(i);
+			TutorialMod.logger.info(i.itemName + ".registerItems");
+		}
 	}
 
 	@SubscribeEvent
-	public void registerRenders(ModelRegistryEvent event) {
-		ModelLoader.setCustomModelResourceLocation(this,
-				0, new ModelResourceLocation(this.getRegistryName(), "inventory"));
-		TutorialMod.logger.info(itemName+".registerItems");
+	public static void registerRenders(ModelRegistryEvent event) {
+		for (GenericItem i : items.values()) {
+			ModelLoader.setCustomModelResourceLocation(i, 0, new ModelResourceLocation(i.getRegistryName(), "inventory"));
+			TutorialMod.logger.info(i.itemName + ".registerRenders");
+		}
 	}
 }
