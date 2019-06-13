@@ -1,7 +1,5 @@
 package us.cownet.tutorialmod;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -38,9 +36,7 @@ public class TutorialMod {
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		// some example code
 		logger.info(MODID + ":init");
-		logger.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
 	}
 
 	@EventHandler

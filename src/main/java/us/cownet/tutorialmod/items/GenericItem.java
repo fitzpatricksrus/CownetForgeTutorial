@@ -14,8 +14,9 @@ import java.util.HashMap;
 
 @Mod.EventBusSubscriber(modid = TutorialMod.MODID)
 public class GenericItem extends Item {
+	// map holds all GenericItems for registration.
+	//TODO: if you don't need this after registraction, nuke it there when done
 	private static HashMap<String, GenericItem> items = new HashMap<>();
-	private String itemName;
 
 	public GenericItem(String name) {
 		this(name, CreativeTabs.MISC, 32);
@@ -28,28 +29,29 @@ public class GenericItem extends Item {
 	}
 	public GenericItem(String name, CreativeTabs tab, int maxStackSize) {
 		TutorialMod.logger.info(">>" + name+".init");
-		itemName = name;
-		setUnlocalizedName(itemName);
-		setRegistryName(itemName);
+		setUnlocalizedName(name);
+		setRegistryName(name);
 		setCreativeTab(tab);
 		setMaxStackSize(maxStackSize);
-		items.put(itemName, this);
-		TutorialMod.logger.info("<<" + itemName+".init");
+		// save this item so it can be registered later
+		items.put(name, this);
+		TutorialMod.logger.info("<<" + name + ".init");
 	}
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
 		for (GenericItem i : items.values()) {
 			event.getRegistry().registerAll(i);
-			TutorialMod.logger.info(i.itemName + ".registerItems");
+			TutorialMod.logger.info(i.getRegistryName() + ".registerItems");
 		}
 	}
 
 	@SubscribeEvent
 	public static void registerRenders(ModelRegistryEvent event) {
 		for (GenericItem i : items.values()) {
-			ModelLoader.setCustomModelResourceLocation(i, 0, new ModelResourceLocation(i.getRegistryName(), "inventory"));
-			TutorialMod.logger.info(i.itemName + ".registerRenders");
+			ModelLoader.setCustomModelResourceLocation(i, 0, new ModelResourceLocation(i.getRegistryName(),
+					"inventory"));
+			TutorialMod.logger.info(i.getRegistryName() + ".registerRenders");
 		}
 	}
 }
