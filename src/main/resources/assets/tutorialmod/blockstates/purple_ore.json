@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "normal": [
+      {
+        "model": "tutorialmod:purple_ore"
+      }
+    ]
+  }
+}

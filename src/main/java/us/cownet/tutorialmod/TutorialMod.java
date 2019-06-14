@@ -1,5 +1,6 @@
 package us.cownet.tutorialmod;
 
+import net.minecraft.block.material.Material;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -7,6 +8,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 import us.cownet.tutorialmod.blocks.BlockBasic;
+import us.cownet.tutorialmod.blocks.GenericBlock;
 import us.cownet.tutorialmod.items.GenericItem;
 import us.cownet.tutorialmod.items.ItemBasic;
 
@@ -21,6 +23,7 @@ public class TutorialMod {
 
 	public static Logger logger;
 	public static GenericItem redDiamond;
+	public static GenericBlock purpleOre;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -29,6 +32,7 @@ public class TutorialMod {
 		logger.info(">>" + MODID + ":preInit");
 		ItemBasic.init();
 		redDiamond = new GenericItem("red_diamond");
+		purpleOre = new GenericBlock("purple_ore", Material.ROCK);
 		BlockBasic.init();
 		logger.info("<<" + MODID + ":preInit");
 	}
