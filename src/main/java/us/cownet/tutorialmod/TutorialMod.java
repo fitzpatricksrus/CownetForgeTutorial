@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
+import us.cownet.tutorialmod.batfight.client.BatFightClient;
 import us.cownet.tutorialmod.blocks.BlockBasic;
 import us.cownet.tutorialmod.blocks.GenericBlock;
 import us.cownet.tutorialmod.items.GenericItem;
@@ -29,12 +30,13 @@ public class TutorialMod {
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		logger = event.getModLog();
-		logger.info(">>" + MODID + ":preInit");
+		logger.info(">>" + MODID + ":doPreInit");
 		ItemBasic.init();
 		redDiamond = new GenericItem("red_diamond");
 		purpleOre = new GenericBlock("purple_ore", Material.ROCK);
 		BlockBasic.init();
-		logger.info("<<" + MODID + ":preInit");
+		BatFightClient.proxy.doPreInit();
+		logger.info("<<" + MODID + ":doPreInit");
 	}
 
 	@EventHandler
