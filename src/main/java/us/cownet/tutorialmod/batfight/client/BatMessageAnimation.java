@@ -12,6 +12,7 @@ import java.util.Random;
 
 @SideOnly(Side.CLIENT)
 public class BatMessageAnimation extends PeriodicBatAnimation {
+	// Alpha channel values from 100% to 0
 	private static int alphaValue[] = {
 			0x00000000,
 			0xF0000000,
@@ -30,9 +31,8 @@ public class BatMessageAnimation extends PeriodicBatAnimation {
 			0x20000000,
 			0x10000000,
 	};
-	private static long frameRate = 63;
+	private static long frameRate = 126;
 
-	private final Random rand = new Random();
 	private final String text;
 	private final float x;
 	private final float y;
@@ -44,6 +44,7 @@ public class BatMessageAnimation extends PeriodicBatAnimation {
 		// https://minecraft.gamepedia.com/Formatting_codes
 		text = "§l" + BatFightWords.getWord();
 
+		// get the display size in Minecraft pixels
 		Minecraft mc = Minecraft.getMinecraft();
 		ScaledResolution scaled = new ScaledResolution(mc);
 		int displayWidth = scaled.getScaledWidth();
@@ -53,6 +54,7 @@ public class BatMessageAnimation extends PeriodicBatAnimation {
 		// place text anywhere from left to right edge of display
 		int textWidth = renderer.getStringWidth(text);
 		int xWiggleRoom = displayWidth - textWidth;
+		Random rand = new Random();
 		x = rand.nextInt(xWiggleRoom);
 
 		// place text in top half of display
@@ -61,16 +63,19 @@ public class BatMessageAnimation extends PeriodicBatAnimation {
 	}
 
 	@Override
-	protected boolean doStuff(long elapsedTime, int frameIndex) {
+	protected boolean doStuff(long elapsedTime, long elapsedFrameTime, int frameIndex, boolean frameChanged) {
 		if (frameIndex >= alphaValue.length) {
+			// we've rendered all frames, don't do anything and tell the caller
+			// to stop bothering us
 			return true;
 		} else {
-			//muck with the alpha channel of the color
+			// muck with the alpha channel of the color
 			int color = 0x00FFAA00 | alphaValue[frameIndex % alphaValue.length];
 
-			//draw the string
+			// draw the string
 			Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(text, x, y, color);
 
+			// tell caller we're not done yet
 			return false;
 		}
 	}

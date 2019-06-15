@@ -9,7 +9,6 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import us.cownet.tutorialmod.TutorialMod;
 import us.cownet.tutorialmod.batfight.common.BatAnimation;
 import us.cownet.tutorialmod.batfight.common.BatFight;
 
@@ -25,11 +24,11 @@ public class BatFightClient extends BatFight {
 
 	@SubscribeEvent
 	public void attackEntityEventHandler(AttackEntityEvent event) {
-		if (event.isCanceled()) return;
 		Entity target = event.getTarget();
+		// only worry about these events on the client side, since server side
+		// doesn't do animation.
 		if (target.world.isRemote) return;
 
-		TutorialMod.logger.info(">>>>> Player attacked a " + target.getClass().getName());
 		if (target instanceof EntityAnimal) {
 			animations.add(new BatMessageAnimation());
 		}
