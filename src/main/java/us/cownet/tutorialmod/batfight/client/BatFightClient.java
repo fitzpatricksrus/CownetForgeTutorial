@@ -42,7 +42,7 @@ public class BatFightClient extends BatFight {
 		Minecraft mc = Minecraft.getMinecraft();
 		HashSet<BatAnimation> deadAnimations = new HashSet<>();
 		for (BatAnimation b : animations) {
-			if (b.doStuff(mc)) {
+			if (b.doStuff()) {
 				deadAnimations.add(b);
 			}
 		}

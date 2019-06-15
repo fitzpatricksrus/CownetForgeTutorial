@@ -30,40 +30,46 @@ public class BatMessageAnimation extends PeriodicBatAnimation {
 			0x20000000,
 			0x10000000,
 	};
+	private static long frameRate = 63;
 
-	private Random rand = new Random();
-	private String text = null;
-	private float x = -1;
-	private float y = -1;
+	private final Random rand = new Random();
+	private final String text;
+	private final float x;
+	private final float y;
 
 	public BatMessageAnimation() {
-		super(62);
+		super(frameRate);
+
+		// get the word and BOLD it with a formatting code
+		// https://minecraft.gamepedia.com/Formatting_codes
+		text = "§l" + BatFightWords.getWord();
+
+		Minecraft mc = Minecraft.getMinecraft();
+		ScaledResolution scaled = new ScaledResolution(mc);
+		int displayWidth = scaled.getScaledWidth();
+		int displayHeight = scaled.getScaledHeight();
+		FontRenderer renderer = mc.fontRenderer;
+
+		// place text anywhere from left to right edge of display
+		int textWidth = renderer.getStringWidth(text);
+		int xWiggleRoom = displayWidth - textWidth;
+		x = rand.nextInt(xWiggleRoom);
+
+		// place text in top half of display
+		int yWiggleRoom = (displayHeight / 2) - (renderer.FONT_HEIGHT);
+		y = rand.nextInt(yWiggleRoom);
 	}
 
 	@Override
-	protected boolean doStuff(Minecraft mc, long elapsedTime, int frameIndex) {
+	protected boolean doStuff(long elapsedTime, int frameIndex) {
 		if (frameIndex >= alphaValue.length) {
 			return true;
 		} else {
-			ScaledResolution scaled = new ScaledResolution(mc);
-			int displayWidth = scaled.getScaledWidth();
-			int displayHeight = scaled.getScaledHeight();
-			FontRenderer renderer = mc.fontRenderer;
-
+			//muck with the alpha channel of the color
 			int color = 0x00FFAA00 | alphaValue[frameIndex % alphaValue.length];
 
-			if (text == null) {
-				text = BatFightWords.getWord();
-				int textWidth = renderer.getStringWidth(text);
-				int xWiggleRoom = displayWidth - textWidth;
-				int xWiggle = rand.nextInt(xWiggleRoom);
-				x = textWidth / 2 + xWiggle;
-
-				int yWiggleRoom = (displayHeight / 2) - (renderer.FONT_HEIGHT);
-				y = rand.nextInt(yWiggleRoom);
-			}
-
-			renderer.drawStringWithShadow(text, x, y, color);
+			//draw the string
+			Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(text, x, y, color);
 
 			return false;
 		}

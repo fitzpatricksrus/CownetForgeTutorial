@@ -1,7 +1,5 @@
 package us.cownet.tutorialmod.batfight.common;
 
-import net.minecraft.client.Minecraft;
-
 /*
 An interface where a frame only changes once per a given time interval
  */
@@ -21,17 +19,17 @@ public class PeriodicBatAnimation implements BatAnimation {
 	}
 
 	@Override
-	public boolean doStuff(Minecraft mc) {
+	public boolean doStuff() {
 		long now = System.currentTimeMillis();
 		long elapsedTime = now - lastFrameTime;
 		if (elapsedTime > frameDelayMillis) {
 			frameIndex = frameIndex + 1;
 			lastFrameTime = now;
 		}
-		return doStuff(mc, elapsedTime, frameIndex);
+		return doStuff(elapsedTime, frameIndex);
 	}
 
-	protected boolean doStuff(Minecraft mc, long elapsedTime, int frameIndex) {
+	protected boolean doStuff(long elapsedTime, int frameIndex) {
 		return true;
 	}
 }
