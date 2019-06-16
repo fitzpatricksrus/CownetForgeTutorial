@@ -1,4 +1,5 @@
-Ditem.itembasic.name=Cownet Tutorial Item
+item.itembasic.name=Cownet Tutorial Item
 item.red_diamond.name=Cownet Red Diamond
+item.emp_gun.name=EMP Gun
 tile.blockbasic.name=Cownet Tutorial Block
 tile.purple_ore.name=Cownet Purple Ore

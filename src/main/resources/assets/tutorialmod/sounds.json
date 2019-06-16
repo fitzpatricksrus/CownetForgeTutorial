@@ -1,0 +1,9 @@
+{
+  "fire_emp": {
+    "category": "player",
+    "subtitle": "tutorialmod.subtitle.emp_fired",
+    "sounds": [
+      "tutorialmod:items/emp_gun/emp_fired"
+    ]
+  }
+}

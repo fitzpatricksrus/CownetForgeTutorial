@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import us.cownet.tutorialmod.batfight.client.BatFightClient;
 import us.cownet.tutorialmod.blocks.BlockBasic;
 import us.cownet.tutorialmod.blocks.GenericBlock;
+import us.cownet.tutorialmod.items.EMPGun;
 import us.cownet.tutorialmod.items.GenericItem;
 import us.cownet.tutorialmod.items.ItemBasic;
 
@@ -25,6 +26,7 @@ public class TutorialMod {
 	public static Logger logger;
 	public static GenericItem redDiamond;
 	public static GenericBlock purpleOre;
+	public static EMPGun empGun;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -36,6 +38,7 @@ public class TutorialMod {
 		purpleOre = new GenericBlock("purple_ore", Material.ROCK);
 		BlockBasic.init();
 		BatFightClient.proxy.doPreInit();
+		empGun = new EMPGun();
 		logger.info("<<" + MODID + ":doPreInit");
 	}
 

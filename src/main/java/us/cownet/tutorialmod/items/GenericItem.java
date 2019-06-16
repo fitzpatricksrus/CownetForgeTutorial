@@ -3,6 +3,8 @@ package us.cownet.tutorialmod.items;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
@@ -17,6 +19,7 @@ public class GenericItem extends Item {
 	// map holds all GenericItems for registration.
 	//TODO: if you don't need this after registraction, nuke it there when done
 	private static HashMap<String, GenericItem> items = new HashMap<>();
+	private static HashMap<String, SoundEvent> sounds = new HashMap<>();
 
 	public GenericItem(String name) {
 		this(name, CreativeTabs.MISC, 32);
@@ -53,5 +56,21 @@ public class GenericItem extends Item {
 					"inventory"));
 			TutorialMod.logger.info(i.getRegistryName() + ".registerRenders");
 		}
+	}
+
+	protected static SoundEvent createSoundEvent(String soundName) {
+		final ResourceLocation soundID = new ResourceLocation(TutorialMod.MODID, soundName);
+		SoundEvent result = new SoundEvent(soundID).setRegistryName(soundID);
+		sounds.put(soundName, result);
+		TutorialMod.logger.info("createSoundEvent( " + soundName + " )");
+		return result;
+	}
+
+	@SubscribeEvent
+	public static void registerSoundEvents(RegistryEvent.Register<SoundEvent> event) {
+		for (SoundEvent e : sounds.values()) {
+			event.getRegistry().register(e);
+		}
+		sounds.clear();
 	}
 }
