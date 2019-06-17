@@ -13,8 +13,8 @@ import us.cownet.tutorialmod.emp.common.EMPProjectile;
 import javax.annotation.Nullable;
 
 public class EMPRenderer extends Render<EMPProjectile> {
-	private static final ResourceLocation texture = new ResourceLocation(TutorialMod.MODID,
-			"textures/entity/emp_projectile");
+	private static final ResourceLocation texture =
+			new ResourceLocation(TutorialMod.MODID, "textures/entity/emp_projectile.png");
 	private ModelBase model;
 
 	public EMPRenderer(RenderManager manager) {
