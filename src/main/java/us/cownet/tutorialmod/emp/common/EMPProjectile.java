@@ -10,6 +10,8 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import us.cownet.tutorialmod.TutorialMod;
 
 public class EMPProjectile extends EntityThrowable {
+	private static float GRAVITY = 0.0f;
+	private static int SPARKINESS = 1;
 
 	private static final String NAME = "emp_projectile";
 	private static final int ID = 120;
@@ -32,7 +34,7 @@ public class EMPProjectile extends EntityThrowable {
 				ID,
 				TutorialMod.instance,
 				64,
-				10,
+				1,
 				true);
 	}
 
@@ -43,7 +45,7 @@ public class EMPProjectile extends EntityThrowable {
 			explode();
 		}
 
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < SPARKINESS; i++) {
 			double x = (double) (rand.nextInt(10) - 5) / 8.0D;
 			double y = (double) (rand.nextInt(10) - 5) / 8.0D;
 			double z = (double) (rand.nextInt(10) - 5) / 8.0D;
@@ -53,7 +55,7 @@ public class EMPProjectile extends EntityThrowable {
 
 	@Override
 	protected float getGravityVelocity() {
-		return 0.005F;
+		return GRAVITY;
 	}
 
 	@Override

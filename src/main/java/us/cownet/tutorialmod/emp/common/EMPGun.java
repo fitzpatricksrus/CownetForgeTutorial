@@ -5,7 +5,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.SidedProxy;
 import us.cownet.tutorialmod.items.GenericItem;
@@ -13,6 +12,7 @@ import us.cownet.tutorialmod.utilities.InventoryUtils;
 
 //@Mod.EventBusSubscriber(modid = TutorialMod.MODID)
 public class EMPGun extends GenericItem {
+	private static final boolean ALLOWED_IN_CREATIVE = true;
 	@SidedProxy(clientSide = "us.cownet.tutorialmod.emp.client.EMPGunClient",
 			serverSide = "us.cownet.tutorialmod.emp.server.EMPGunServer")
 	public static EMPGun proxy;
@@ -40,15 +40,15 @@ public class EMPGun extends GenericItem {
 		ItemStack ammo = InventoryUtils.findInInventory(player, ItemArrow.class);
 		boolean hasAmmo = !ammo.isEmpty();
 		boolean inCreativeMode = player.capabilities.isCreativeMode;
+		boolean creativeOK = !inCreativeMode || ALLOWED_IN_CREATIVE;
 
-		if (!inCreativeMode && hasAmmo) {
+		if (creativeOK && hasAmmo) {
 			player.setActiveHand(handIn);
 			ammo.grow(-1);
 			player.swingArm(handIn);
 			world.playSound(player, player.getPosition(), empBlastSound, SoundCategory.PLAYERS, 1.0f, 1.0f);
 			if (!world.isRemote) {
 				EMPProjectile projectile = new EMPProjectile(world, player);
-				Vec3d vec = player.getLookVec();
 				projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0f, 1.6f, 0f);
 				world.spawnEntity(projectile);
 			}
