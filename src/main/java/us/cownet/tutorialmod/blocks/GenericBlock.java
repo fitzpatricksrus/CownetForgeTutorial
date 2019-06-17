@@ -39,14 +39,14 @@ public class GenericBlock extends Block {
 		maxDropAmount = maxDrop;
 		setCreativeTab(tab);
 		blocks.put(name, this);
-		TutorialMod.logger.info("GenericBlock.init");
+		TutorialMod.logInfo("GenericBlock.init");
 	}
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
 		for (GenericBlock block : blocks.values()) {
 			event.getRegistry().registerAll(block);
-			TutorialMod.logger.info(block.getRegistryName() + ".registerBlocks");
+			TutorialMod.logInfo(block.getRegistryName() + ".registerBlocks");
 		}
 	}
 
@@ -54,7 +54,7 @@ public class GenericBlock extends Block {
 	public static void registerItemBlocks(RegistryEvent.Register<Item> event) {
 		for (GenericBlock block : blocks.values()) {
 			event.getRegistry().registerAll(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-			TutorialMod.logger.info(block.getRegistryName() + ".registerItemBlocks");
+			TutorialMod.logInfo(block.getRegistryName() + ".registerItemBlocks");
 		}
 	}
 
@@ -63,7 +63,7 @@ public class GenericBlock extends Block {
 		for (GenericBlock block : blocks.values()) {
 			Item item = Item.getItemFromBlock(block);
 			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
-			TutorialMod.logger.info(block.getRegistryName() + ".registerRenders");
+			TutorialMod.logInfo(block.getRegistryName() + ".registerRenders");
 		}
 	}
 

@@ -26,25 +26,25 @@ public class BlockBasic extends Block {
 
 	public static void init() {
 		tutorialBlock = new BlockBasic(blockName, Material.ROCK).setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-		TutorialMod.logger.info("BlockBasic.init");
+		TutorialMod.logInfo("BlockBasic.init");
 	}
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
 		event.getRegistry().registerAll(tutorialBlock);
-		TutorialMod.logger.info("BlockBasic.registerBlocks");
+		TutorialMod.logInfo("BlockBasic.registerBlocks");
 	}
 
 	@SubscribeEvent
 	public static void registerItemBlocks(RegistryEvent.Register<Item> event) {
 		event.getRegistry().registerAll(new ItemBlock(tutorialBlock).setRegistryName(tutorialBlock.getRegistryName()));
-		TutorialMod.logger.info("BlockBasic.registerItemBlocks");
+		TutorialMod.logInfo("BlockBasic.registerItemBlocks");
 	}
 
 	@SubscribeEvent
 	public static void registerRenders(ModelRegistryEvent event) {
 		Item item = Item.getItemFromBlock(tutorialBlock);
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
-		TutorialMod.logger.info("BlockBasic.registerRenders");
+		TutorialMod.logInfo("BlockBasic.registerRenders");
 	}
 }

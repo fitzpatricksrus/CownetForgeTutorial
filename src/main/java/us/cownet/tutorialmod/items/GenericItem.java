@@ -8,13 +8,13 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import us.cownet.tutorialmod.TutorialMod;
 
 import java.util.HashMap;
 
-@Mod.EventBusSubscriber(modid = TutorialMod.MODID)
+@EventBusSubscriber(modid = TutorialMod.MODID)
 public class GenericItem extends Item {
 	// map holds all GenericItems for registration.
 	//TODO: if you don't need this after registraction, nuke it there when done
@@ -31,21 +31,21 @@ public class GenericItem extends Item {
 		this(name, CreativeTabs.MISC, maxStackSize);
 	}
 	public GenericItem(String name, CreativeTabs tab, int maxStackSize) {
-		TutorialMod.logger.info(">>" + name+".init");
+		TutorialMod.logInfo(">>" + name + ".init");
 		setUnlocalizedName(name);
 		setRegistryName(name);
 		setCreativeTab(tab);
 		setMaxStackSize(maxStackSize);
 		// save this item so it can be registered later
 		items.put(name, this);
-		TutorialMod.logger.info("<<" + name + ".init");
+		TutorialMod.logInfo("<<" + name + ".init");
 	}
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
 		for (GenericItem i : items.values()) {
 			event.getRegistry().registerAll(i);
-			TutorialMod.logger.info(i.getRegistryName() + ".registerItems");
+			TutorialMod.logInfo(i.getRegistryName() + ".registerItems");
 		}
 	}
 
@@ -54,7 +54,7 @@ public class GenericItem extends Item {
 		for (GenericItem i : items.values()) {
 			ModelLoader.setCustomModelResourceLocation(i, 0, new ModelResourceLocation(i.getRegistryName(),
 					"inventory"));
-			TutorialMod.logger.info(i.getRegistryName() + ".registerRenders");
+			TutorialMod.logInfo(i.getRegistryName() + ".registerRenders");
 		}
 	}
 
@@ -62,7 +62,7 @@ public class GenericItem extends Item {
 		final ResourceLocation soundID = new ResourceLocation(TutorialMod.MODID, soundName);
 		SoundEvent result = new SoundEvent(soundID).setRegistryName(soundID);
 		sounds.put(soundName, result);
-		TutorialMod.logger.info("createSoundEvent( " + soundName + " )");
+		TutorialMod.logInfo("createSoundEvent( " + soundName + " )");
 		return result;
 	}
 

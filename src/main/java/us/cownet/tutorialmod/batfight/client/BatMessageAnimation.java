@@ -42,7 +42,7 @@ public class BatMessageAnimation extends PeriodicBatAnimation {
 
 		// get the word and BOLD it with a formatting code
 		// https://minecraft.gamepedia.com/Formatting_codes
-		text = "§l" + BatFightWords.getWord();
+		text = BatFightWords.getWord();
 
 		// get the display size in Minecraft pixels
 		Minecraft mc = Minecraft.getMinecraft();

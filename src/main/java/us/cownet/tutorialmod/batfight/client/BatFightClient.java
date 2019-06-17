@@ -15,6 +15,7 @@ import us.cownet.tutorialmod.batfight.common.BatFight;
 import java.util.HashSet;
 
 @SideOnly(Side.CLIENT)
+//@Mod.EventBusSubscriber
 public class BatFightClient extends BatFight {
 	private HashSet<BatAnimation> animations = new HashSet<>();
 
@@ -23,7 +24,7 @@ public class BatFightClient extends BatFight {
 	}
 
 	@SubscribeEvent
-	public void attackEntityEventHandler(AttackEntityEvent event) {
+	public void onAttackEntityEvent(AttackEntityEvent event) {
 		Entity target = event.getTarget();
 		// only worry about these events on the client side, since server side
 		// doesn't do animation.
@@ -36,7 +37,7 @@ public class BatFightClient extends BatFight {
 	}
 
 	@SubscribeEvent
-	public void onRenderGui(RenderGameOverlayEvent.Post event) {
+	public void onRenderGameOverlayEvent(RenderGameOverlayEvent.Post event) {
 		if (event.getType() != RenderGameOverlayEvent.ElementType.EXPERIENCE) return;
 		Minecraft mc = Minecraft.getMinecraft();
 		HashSet<BatAnimation> deadAnimations = new HashSet<>();

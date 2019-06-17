@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import us.cownet.tutorialmod.batfight.client.BatFightClient;
 import us.cownet.tutorialmod.blocks.BlockBasic;
 import us.cownet.tutorialmod.blocks.GenericBlock;
-import us.cownet.tutorialmod.items.EMPGun;
+import us.cownet.tutorialmod.emp.common.EMPGun;
 import us.cownet.tutorialmod.items.GenericItem;
 import us.cownet.tutorialmod.items.ItemBasic;
 
@@ -23,33 +23,36 @@ public class TutorialMod {
 	@Mod.Instance
 	public static TutorialMod instance;
 
-	public static Logger logger;
+	private static Logger logger;
 	public static GenericItem redDiamond;
 	public static GenericBlock purpleOre;
-	public static EMPGun empGun;
+
+	public static void logInfo(String info) {
+		if (logger != null) logger.info(info);
+	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		logger = event.getModLog();
-		logger.info(">>" + MODID + ":doPreInit");
+		logInfo(">>" + MODID + ":doPreInit");
 		ItemBasic.init();
 		redDiamond = new GenericItem("red_diamond");
 		purpleOre = new GenericBlock("purple_ore", Material.ROCK);
 		BlockBasic.init();
 		BatFightClient.proxy.doPreInit();
-		empGun = new EMPGun();
-		logger.info("<<" + MODID + ":doPreInit");
+		EMPGun.proxy.doPreInit();
+		logInfo("<<" + MODID + ":doPreInit");
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		logger.info(MODID + ":init");
+		logInfo(MODID + ":init");
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		logger.info(MODID + ":postInit");
+		logInfo(MODID + ":postInit");
 	}
 }

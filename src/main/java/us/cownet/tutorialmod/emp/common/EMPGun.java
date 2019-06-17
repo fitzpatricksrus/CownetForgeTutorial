@@ -1,4 +1,4 @@
-package us.cownet.tutorialmod.items;
+package us.cownet.tutorialmod.emp.common;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,20 +7,26 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Mod;
-import us.cownet.tutorialmod.TutorialMod;
-import us.cownet.tutorialmod.entities.EMPProjectile;
+import net.minecraftforge.fml.common.SidedProxy;
+import us.cownet.tutorialmod.items.GenericItem;
 import us.cownet.tutorialmod.utilities.InventoryUtils;
 
-@Mod.EventBusSubscriber(modid = TutorialMod.MODID)
+//@Mod.EventBusSubscriber(modid = TutorialMod.MODID)
 public class EMPGun extends GenericItem {
-	public static String name = "emp_gun";
-	public static String EMPSoundName = "fire_emp";
-	public SoundEvent empBlastSound;
+	@SidedProxy(clientSide = "us.cownet.tutorialmod.emp.client.EMPGunClient",
+			serverSide = "us.cownet.tutorialmod.emp.server.EMPGunServer")
+	public static EMPGun proxy;
+
+	private static String name = "emp_gun";
+	private static String EMPSoundName = "fire_emp";
+	private SoundEvent empBlastSound;
 
 	public EMPGun() {
 		super(name, CreativeTabs.COMBAT, 1);
 		setMaxDamage(0);
+	}
+
+	public void doPreInit() {
 		empBlastSound = createSoundEvent(EMPSoundName);
 		EMPProjectile.registerModEntity();
 	}
@@ -37,21 +43,13 @@ public class EMPGun extends GenericItem {
 
 		if (!inCreativeMode && hasAmmo) {
 			player.setActiveHand(handIn);
-//		    ammo.grow(-1);
+			ammo.grow(-1);
 			player.swingArm(handIn);
 			world.playSound(player, player.getPosition(), empBlastSound, SoundCategory.PLAYERS, 1.0f, 1.0f);
-			EMPProjectile projectile = new EMPProjectile(world, player);
-			Vec3d vec = player.getLookVec();
-
-			projectile.shoot(vec.x, vec.y, vec.z, 1.6f, 0f);
-/*			double d0 = target.posY + (double)target.getEyeHeight() - 1.100000023841858D;
-			double d1 = target.posX - this.posX;
-			double d2 = d0 - entitysnowball.posY;
-			double d3 = target.posZ - this.posZ;
-			float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
-			entitysnowball.shoot(d1, d2 + (double)f, d3, 1.6F, 12.0F);
-			projectile.shoot() */
 			if (!world.isRemote) {
+				EMPProjectile projectile = new EMPProjectile(world, player);
+				Vec3d vec = player.getLookVec();
+				projectile.shoot(player, player.rotationPitch, player.rotationYaw, 0.0f, 1.6f, 0f);
 				world.spawnEntity(projectile);
 			}
 			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
@@ -82,7 +80,7 @@ public class EMPGun extends GenericItem {
 		}
 	}
 
-	protected boolean isEMPRound(ItemStack stack) {
+	private boolean isEMPRound(ItemStack stack) {
 		return stack.getItem() instanceof ItemArrow;
 	}
 }

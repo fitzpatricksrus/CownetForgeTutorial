@@ -1,4 +1,4 @@
-package us.cownet.tutorialmod.entities;
+package us.cownet.tutorialmod.emp.common;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -13,6 +13,7 @@ public class EMPProjectile extends EntityThrowable {
 
 	private static final String NAME = "emp_projectile";
 	private static final int ID = 120;
+	private EntityLivingBase launcher;
 
 	public EMPProjectile(World world) {
 		super(world);
@@ -20,6 +21,7 @@ public class EMPProjectile extends EntityThrowable {
 
 	public EMPProjectile(World world, EntityLivingBase entity) {
 		super(world, entity);
+		launcher = entity;
 	}
 
 	public static void registerModEntity() {
@@ -41,7 +43,7 @@ public class EMPProjectile extends EntityThrowable {
 			explode();
 		}
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1; i++) {
 			double x = (double) (rand.nextInt(10) - 5) / 8.0D;
 			double y = (double) (rand.nextInt(10) - 5) / 8.0D;
 			double z = (double) (rand.nextInt(10) - 5) / 8.0D;
@@ -56,22 +58,18 @@ public class EMPProjectile extends EntityThrowable {
 
 	@Override
 	protected void onImpact(RayTraceResult result) {
-		explode();
+		if (!world.isRemote) {
+			if (result.entityHit == launcher) {
+				return;
+			}
+			TutorialMod.logInfo(result.toString());
+			explode();
+		}
 	}
 
 	private void explode() {
 		setDead();
-		this.world.createExplosion(this, posX, posY, posZ, 0.75F, true);
-
-/*		// spawn lingering cloud
-		EntityAreaEffectCloud entityareaeffectcloud = new EntityAreaEffectCloud(this.world, this.posX, this.posY, this.posZ);
-		entityareaeffectcloud.setRadius(2.5F);
-		entityareaeffectcloud.setRadiusOnUse(-0.5F);
-		entityareaeffectcloud.setWaitTime(10);
-		entityareaeffectcloud.setDuration(20*10);
-		entityareaeffectcloud.setRadiusPerTick(-entityareaeffectcloud.getRadius() / (float)entityareaeffectcloud.getDuration());
-
-		this.world.spawnEntity(entityareaeffectcloud);
-*/
+		TutorialMod.logInfo("explosion: x=" + posX + " y=" + posY + " z=" + posZ);
+		this.world.createExplosion(this, posX, posY, posZ, 1.75F, true);
 	}
 }

@@ -17,20 +17,20 @@ public class ItemBasic extends Item {
 
 	public static void init() {
 		tutorialItem = new ItemBasic(itemName).setCreativeTab(CreativeTabs.MISC).setMaxStackSize(32);
-		TutorialMod.logger.info("ItemBasic.init");
+		TutorialMod.logInfo("ItemBasic.init");
 	}
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
 		event.getRegistry().registerAll(tutorialItem);
-		TutorialMod.logger.info("ItemBasic.registerItems");
+		TutorialMod.logInfo("ItemBasic.registerItems");
 	}
 
 	@SubscribeEvent
 	public static void registerRenders(ModelRegistryEvent event) {
 		ModelLoader.setCustomModelResourceLocation(tutorialItem,
 				0, new ModelResourceLocation(tutorialItem.getRegistryName(), "inventory"));
-		TutorialMod.logger.info("ItemBasic.registerItems");
+		TutorialMod.logInfo("ItemBasic.registerItems");
 	}
 
 	public ItemBasic(String name) {
